@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ApiService } from '../services/api.service';
+import { GameService } from '../services/game.service';
 
 @Component({
   selector: 'app-login',
@@ -15,10 +16,15 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private apiService: ApiService,
+    private gameService: GameService,
     private router: Router
   ) { }
 
   ngOnInit(): void {
+    const gameID = this.gameService.getGameID();
+    if (gameID) {  
+      this.gameID = gameID;
+    }
   }
 
   onSubmit(loginForm: NgForm): void {
@@ -32,7 +38,7 @@ export class LoginComponent implements OnInit {
         return;
       }
       // send login request
-      this.apiService.login(gameID, name).subscribe((response: string) => {
+      this.apiService.login(gameID, name).subscribe((response: string) => {      
         switch (response) {
           case 'Internal server error during login':
             this.errorText = response;
@@ -54,7 +60,12 @@ export class LoginComponent implements OnInit {
             break;
           default:
             // returned jwt
+            if (!this.gameID) {
+              this.gameService.setgameID(gameID);
+            }
+            this.gameService.setToken(response);
             this.router.navigate(['/lobby']);
+            break;
         }
       });
     } else {

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../services/api.service';
+import { GameService } from '../services/game.service';
 import { Player } from '../shared/models/player';
 
 @Component({
@@ -16,16 +17,18 @@ export class LobbyComponent implements OnInit {
   playerName: string = 'Test';
 
   constructor(
-    private apiService: ApiService
+    private apiService: ApiService,
+    private gameService: GameService
   ) { }
 
   ngOnInit(): void {
+    this.gameID = this.gameService.getGameID();
   }
 
   onReady(event: any): void {
-    const status: boolean = event.target.checked;
+    const status: boolean = event.target.checked;   
 
-    this.apiService.ready(status, '');
+    this.apiService.ready(status, this.gameService.getToken());
   }
 
 }

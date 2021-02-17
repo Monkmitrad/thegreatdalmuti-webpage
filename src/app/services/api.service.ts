@@ -24,12 +24,11 @@ export class ApiService {
     return this.http.post(this.constants.API_ENDPOINT + url, data, options).pipe(
       catchError((err) => {
         if (err instanceof HttpErrorResponse) {
-          if (err.error.response) {
+          if (err.error.response) {            
             // error created by the game logic
             return of(err.error.response);
           }
         }
-        console.log(err);
 
         return throwError(err);    // rethrow it back to component
       })
@@ -41,18 +40,10 @@ export class ApiService {
   }
 
   public login(gameID: number, name: string): Observable<string> {
-    return this.post('login', { gameID, playerName: name }).pipe(map((response: {response: string}) => response.response));
+    return this.post('login', { gameID, playerName: name }).pipe(map((response) => response.response));
   }
 
-  public ready(status, token): void {
-    this.post('ready', { status }, {headers: new HttpHeaders().set('Authorization', token)}).subscribe((response: { response: string | boolean }) => {
-      if (typeof response.response === 'string') {
-        // error message
-        console.log(response.response);
-      } else if (typeof response.response === 'boolean') {
-        // status was returned
-        console.log('Transmit successful: ', response.response === status);
-      }
-    });
+  public ready(status: boolean, token: string): void {
+    this.post('ready', { status }, {headers: new HttpHeaders().set('Authorization', token)}).subscribe((response: { response: string }) => response.response);
   }
 }
