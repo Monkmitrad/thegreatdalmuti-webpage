@@ -1,0 +1,27 @@
+<div class="container-fluid text-white">
+    <h1 class="text-center m-2">Game {{ gameID }}</h1>
+
+    <table class="table table-dark m-2">
+        <thead>
+            <th>#</th>
+            <th>Name</th>
+            <th>Ready</th>
+        </thead>
+        <tbody>
+            <tr *ngFor="let player of players">
+                <td>{{ players.indexOf(player) }}</td>
+                <td>{{ player.name }}</td>
+                <td>
+                    <label class="b-contain">
+                        <input type="checkbox" (change)="onReady($event)" [disabled]="player.name != playerName" [checked]="player.ready">
+                        <div class="b-input"></div>
+                    </label>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="alert alert-info text-center show fade mt-4" *ngIf="infoText">
+        <span class="">{{ infoText }}</span>
+    </div>
+</div>
