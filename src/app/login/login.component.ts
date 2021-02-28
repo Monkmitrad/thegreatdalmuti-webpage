@@ -39,6 +39,7 @@ export class LoginComponent implements OnInit {
       }
       // send login request
       this.apiService.login(gameID, name).subscribe((response: string) => {      
+        
         switch (response) {
           case 'Internal server error during login':
             this.errorText = response;
@@ -58,12 +59,16 @@ export class LoginComponent implements OnInit {
           case '':
             console.log('Empty response');
             break;
+          case undefined:
+            console.log('Error');
+            break;
           default:
             // returned jwt
             if (!this.gameID) {
               this.gameService.setgameID(gameID);
             }
             this.gameService.setToken(response);
+            this.gameService.setName(name);
             this.router.navigate(['/lobby']);
             break;
         }

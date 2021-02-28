@@ -11,6 +11,7 @@ import { LoginComponent } from './login/login.component';
 import { StartupComponent } from './startup/startup.component';
 import { LobbyComponent } from './lobby/lobby.component';
 import { Constants } from './shared/config/constants';
+import { SocketService } from './services/socket.service';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,7 @@ import { Constants } from './shared/config/constants';
     FormsModule,
     HttpClientModule
   ],
-  providers: [Constants],
+  providers: [Constants, SocketService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -7,6 +7,7 @@ export class GameService {
 
   private gameID: number;
   private token: string;
+  private name: string;
 
   constructor() { }
 
@@ -24,5 +25,13 @@ export class GameService {
 
   setToken(value: string) {
     this.token = value;
+  }
+
+  getName(): string {
+    return this.name;
+  }
+
+  setName(value: string) {
+    this.name = value;
   }
 }
